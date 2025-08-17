@@ -1,0 +1,94 @@
+Here’s the official GitHub documentation and clear guidance to help you switch from using HTTPS to SSH for Git operations:
+
+⸻
+
+GitHub Official Documentation
+
+1. Connecting to GitHub with SSH
+GitHub’s own documentation explains how to connect securely using SSH keys—no need to enter your username or token each time. It covers everything from generating keys, adding them to the SSH agent, to adding them to your GitHub account. ￼
+
+2. Generating a New SSH Key & Adding to ssh-agent
+Once you’ve checked for existing SSH keys, GitHub shows you how to create a new one and add it to the SSH agent for smooth authentication. ￼
+
+⸻
+
+Simple Step-by-Step Guide (Based on Docs and Trusted Sources)
+
+Here’s how to switch your repository from HTTPS to SSH quickly and securely:
+
+1. Generate an SSH Key (if not done already)
+
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+— Or use RSA if needed (e.g., rsa -b 4096). ￼ ￼
+
+2. Start the SSH Agent and Add Your Key
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+— This loads your private key into the SSH agent for authentication purposes. ￼ ￼
+
+3. Add Public Key to Your GitHub Account
+	•	Copy your SSH public key:
+
+cat ~/.ssh/id_ed25519.pub
+
+
+	•	Then go to GitHub → Settings → SSH and GPG keys → New SSH key, paste your key, and save it. ￼ ￼
+
+4. Update Your Git Remote from HTTPS to SSH
+
+In your project directory, run:
+
+git remote set-url origin git@github.com:username/repo.git
+
+This replaces the HTTPS URL with SSH. ￼ ￼ ￼
+
+5. Verify the New Remote URL
+
+Check that the remote URL has been updated:
+
+git remote -v
+
+It should now show URLs starting with git@github.com:.... ￼ ￼
+
+6. Test Your SSH Connection
+
+ssh -T git@github.com
+
+If everything is set up properly, you’ll see a success message like:
+
+Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+``` [oai_citation:13‡markusthill.github.io](https://markusthill.github.io/blog/2024/migrating-git-from-https-to-ssh/?utm_source=chatgpt.com) [oai_citation:14‡GitHub Docs](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?utm_source=chatgpt.com)
+
+###  7. Now Push Using SSH
+```bash
+git push origin main
+
+No password is needed—SSH handles the authentication.
+
+⸻
+
+Why Switch to SSH?
+	•	More secure – uses key-based authentication instead of passwords. ￼ ￼
+	•	More convenient – no more typing your password or token each time. ￼ ￼ ￼
+	•	Standard practice among experienced developers and in DevOps workflows. ￼ ￼
+
+⸻
+
+Summary Table
+
+Step	Action
+1	Generate SSH key (ssh-keygen)
+2	Add private key to SSH agent (ssh-add)
+3	Add public key to GitHub
+4	Change remote URL to SSH (git remote set-url)
+5	Verify remote (git remote -v)
+6	Test connection (ssh -T git@github.com)
+7	Push changes (git push origin <branch>)
+
+
+⸻
+
+Let me know if you’d like a shell script to automate these steps or help with linking multiple GitHub accounts using SSH!
